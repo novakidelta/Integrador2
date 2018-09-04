@@ -11,6 +11,7 @@ import Classes.Suspeito;
 
 public class SuspeitoDAO { 
     private Connection connection;
+    private Suspeito suspeito;
     
 	
 	private ResultSet rs;
@@ -24,7 +25,7 @@ public class SuspeitoDAO {
        String sql = "INSERT INTO suspeito (caracteristica) VALUES(?)"; 
         try { 
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, Suspeito.getCaracteristica());
+            stmt.setString(1, suspeito.getCaracteristica());
             stmt.execute();
             stmt.close();
         } 

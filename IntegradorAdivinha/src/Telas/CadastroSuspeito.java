@@ -20,9 +20,10 @@ public class CadastroSuspeito {
 
 	private JFrame frame;
 	private JTextField textFieldCadastro;
-	private static JTable tabela_suspeito;
+
 	
-	private static Suspeito suspeito;
+	private  Suspeito suspeito;
+	private JTable suspeito_tabela;
 	
 	
 	
@@ -38,8 +39,8 @@ public class CadastroSuspeito {
 					CadastroSuspeito window = new CadastroSuspeito();
 					window.frame.setVisible(true);
 					
-					suspeito.Carregar_TabelaSuspeito(tabela_suspeito);
-				} catch (Exception e) {
+					
+								} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -59,6 +60,7 @@ public class CadastroSuspeito {
 	 * @throws SQLException 
 	 */
 	private void initialize() throws SQLException {
+		suspeito_tabela = new JTable();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -120,12 +122,26 @@ public class CadastroSuspeito {
 		frame.getContentPane().add(btnSair);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(290, 145, 134, 105);
-		frame.getContentPane().add(scrollPane);
+		
+		JButton btnCarregar = new JButton("carregar");
+		btnCarregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		btnCarregar.setBounds(315, 109, 89, 23);
+		frame.getContentPane().add(btnCarregar);
 		
 	
+		scrollPane.setBounds(241, 158, 103, 92);
+		frame.getContentPane().add(scrollPane);
 		
 		
-		scrollPane.setViewportView(tabela_suspeito);
+		scrollPane.setViewportView(suspeito_tabela);
 	}
 }

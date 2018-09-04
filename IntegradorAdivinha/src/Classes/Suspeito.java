@@ -10,10 +10,10 @@ import DAO.SuspeitoDAO;
 
 public class Suspeito {
 	
-	private static String caracteristica;
+	private  String caracteristica;
 	
 
-	public static String getCaracteristica() {
+	public  String getCaracteristica() {
 		return caracteristica;
 	}
 
@@ -28,6 +28,7 @@ public class Suspeito {
 		
 		SuspeitoDAO suspeitoDao= new SuspeitoDAO();
 			List<Suspeito> lista_suspeito= suspeitoDao.listar();
+			System.out.println(lista_suspeito.get(0).getCaracteristica());
 			
 			for(Suspeito suspeito : lista_suspeito){///Mudei aqui para não dar problemas com o idduplicado
 				
