@@ -39,15 +39,16 @@ public class SuspeitoDAO {
 		Conecao conexao= new Conecao();
 		connection = conexao.getConexao();
 	
-		String sql="select * from suspeito";//pega somente os clientes ativos onde ativo é true quando é excluido o ativo vira false e a tabela não busca
+		String sql="select * from suspeito ";//pega somente os clientes ativos onde ativo é true quando é excluido o ativo vira false e a tabela não busca
 		PreparedStatement stmt = connection.prepareStatement(sql);
 		
 		stmt= connection.prepareStatement(sql);
 		rs=stmt.executeQuery();
 		while(rs.next()){			
 			Suspeito suspeito =new Suspeito();
+			suspeito.setCaracteristica(rs.getString(("caracteristica")));
 			lista_suspeito.add(suspeito);
-			
+			System.out.println(suspeito.getCaracteristica());
 			}
 		connection.close();
 		stmt.close();

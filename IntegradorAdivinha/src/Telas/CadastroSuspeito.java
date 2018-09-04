@@ -22,7 +22,7 @@ public class CadastroSuspeito {
 	private JTextField textFieldCadastro;
 
 	
-	private  Suspeito suspeito;
+	private  Suspeito suspeito = new Suspeito();
 	private JTable suspeito_tabela;
 	
 	
@@ -138,7 +138,7 @@ public class CadastroSuspeito {
 		frame.getContentPane().add(btnCarregar);
 		
 	
-		scrollPane.setBounds(241, 158, 103, 92);
+		scrollPane.setBounds(53, 159, 301, 92);
 		frame.getContentPane().add(scrollPane);
 		
 		
