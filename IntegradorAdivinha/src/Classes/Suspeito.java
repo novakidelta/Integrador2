@@ -32,8 +32,7 @@ public class Suspeito {
 			
 			for(Suspeito suspeito : lista_suspeito){///Mudei aqui para não dar problemas com o idduplicado
 				
-				defaultTableModel_supeito.addRow(new Object[]{
-						suspeito.getCaracteristica(),
+				defaultTableModel_supeito.addRow(new Object[]{suspeito.getCaracteristica(),
 						
 				});
 			
