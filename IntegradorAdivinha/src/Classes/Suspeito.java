@@ -27,10 +27,10 @@ public class Suspeito {
 		defaultTableModel_supeito.addColumn("Caracteristicas");
 		
 		SuspeitoDAO suspeitoDao= new SuspeitoDAO();
-			List<Suspeito> lista_suspeito= suspeitoDao.listar();
+			List<Suspeito> lista_suspeito= suspeitoDao.listarSuspeitos();
 			System.out.println(lista_suspeito.get(0).getCaracteristica());
 			
-			for(Suspeito suspeito : lista_suspeito){///Mudei aqui para não dar problemas com o idduplicado
+			for(Suspeito suspeito : lista_suspeito){
 				
 				defaultTableModel_supeito.addRow(new Object[]{suspeito.getCaracteristica(),
 						

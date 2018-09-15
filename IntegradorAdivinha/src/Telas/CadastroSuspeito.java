@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import Classes.Pergunta;
 import Classes.Suspeito;
+import DAO.PerguntaDAO;
 import DAO.SuspeitoDAO;
 
 import javax.swing.JButton;
@@ -19,11 +21,14 @@ import javax.swing.JTable;
 public class CadastroSuspeito {
 
 	private JFrame frame;
-	private JTextField textFieldCadastro;
+	private JTextField textFieldCadastroSuspeito;
 
 	
 	private  Suspeito suspeito = new Suspeito();
+	private Pergunta pergunta = new Pergunta();
 	private JTable suspeito_tabela;
+	private JTextField textFieldCadastroPergunta;
+	private JTable pergunta_tabela;
 	
 	
 	
@@ -62,55 +67,61 @@ public class CadastroSuspeito {
 	private void initialize() throws SQLException {
 		suspeito_tabela = new JTable();
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 588, 393);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		textFieldCadastro = new JTextField();
-		textFieldCadastro.setBounds(43, 32, 243, 20);
-		frame.getContentPane().add(textFieldCadastro);
-		textFieldCadastro.setColumns(10);
+		textFieldCadastroSuspeito = new JTextField();
+		textFieldCadastroSuspeito.setBounds(26, 35, 243, 20);
+		frame.getContentPane().add(textFieldCadastroSuspeito);
+		textFieldCadastroSuspeito.setColumns(10);
 		
 		
 	   	
 		
 	
 		
-		JButton btnNewButton = new JButton("Cadastrar");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnCadastrarSuspeito = new JButton("Cadastrar");
+		btnCadastrarSuspeito.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Suspeito suspeitos = new Suspeito();
-				suspeitos.setCaracteristica(textFieldCadastro.getText());
+				suspeitos.setCaracteristica(textFieldCadastroSuspeito.getText());
 				
 
 				// fazendo a validação dos dados
-				if ((textFieldCadastro.getText().isEmpty())) {
+				if ((textFieldCadastroSuspeito.getText().isEmpty())) {
 				   JOptionPane.showMessageDialog(null, "Os campos não podem retornar vazios");
 				}
 				else {
 
 				    // instanciando a classe UsuarioDAO do pacote dao e criando seu objeto dao
 				    SuspeitoDAO dao = new SuspeitoDAO();
-				    dao.inserir(suspeitos);
-				    JOptionPane.showMessageDialog(null, "Usuário "+textFieldCadastro.getText()+" inserido com sucesso! ");
+				    dao.inserirsuspeito(suspeitos);
+				    try {
+						suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				    JOptionPane.showMessageDialog(null, "Usuário "+textFieldCadastroSuspeito.getText()+" inserido com sucesso! ");
 				}
 
 				// apaga os dados preenchidos nos campos de texto
-				textFieldCadastro.setText("");
+				textFieldCadastroSuspeito.setText("");
 
 			}
 		});
-		btnNewButton.setBounds(48, 78, 89, 23);
-		frame.getContentPane().add(btnNewButton);
+		btnCadastrarSuspeito.setBounds(31, 81, 89, 23);
+		frame.getContentPane().add(btnCadastrarSuspeito);
 		
-		JButton btnNewButton_1 = new JButton("Limpar");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton btnLimparCadastroSuspeito = new JButton("Limpar");
+		btnLimparCadastroSuspeito.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textFieldCadastro.setText("");
+				textFieldCadastroSuspeito.setText("");
 			}
 		});
-		btnNewButton_1.setBounds(197, 78, 89, 23);
-		frame.getContentPane().add(btnNewButton_1);
+		btnLimparCadastroSuspeito.setBounds(180, 81, 89, 23);
+		frame.getContentPane().add(btnLimparCadastroSuspeito);
 		
 		JButton btnSair = new JButton("Sair");
 		btnSair.addActionListener(new ActionListener() {
@@ -118,13 +129,13 @@ public class CadastroSuspeito {
 				System.exit(0); 
 			}
 		});
-		btnSair.setBounds(118, 125, 89, 23);
+		btnSair.setBounds(229, 320, 89, 23);
 		frame.getContentPane().add(btnSair);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane scrollPaneCadastro = new JScrollPane();
 		
-		JButton btnCarregar = new JButton("carregar");
-		btnCarregar.addActionListener(new ActionListener() {
+		JButton btnCarregarCadastro = new JButton("carregar");
+		btnCarregarCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
@@ -134,14 +145,100 @@ public class CadastroSuspeito {
 				}
 			}
 		});
-		btnCarregar.setBounds(315, 109, 89, 23);
-		frame.getContentPane().add(btnCarregar);
+		btnCarregarCadastro.setBounds(31, 131, 89, 23);
+		frame.getContentPane().add(btnCarregarCadastro);
+		
+		JButton btnExcluirSuspeito = new JButton("Excluir");
+		btnExcluirSuspeito.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PerguntaDAO dao = new PerguntaDAO();
+				//dao.excluirSuspeito();
+			}
+		});
+		btnExcluirSuspeito.setBounds(180, 131, 89, 23);
+		frame.getContentPane().add(btnExcluirSuspeito);
 		
 	
-		scrollPane.setBounds(53, 159, 301, 92);
-		frame.getContentPane().add(scrollPane);
+		scrollPaneCadastro.setBounds(36, 165, 233, 92);
+		frame.getContentPane().add(scrollPaneCadastro);
 		
 		
-		scrollPane.setViewportView(suspeito_tabela);
+		scrollPaneCadastro.setViewportView(suspeito_tabela);
+		
+		textFieldCadastroPergunta = new JTextField();
+		textFieldCadastroPergunta.setBounds(318, 35, 227, 20);
+		frame.getContentPane().add(textFieldCadastroPergunta);
+		textFieldCadastroPergunta.setColumns(10);
+		
+		JButton btnCadastrarPergunta = new JButton("Cadastrar");
+		btnCadastrarPergunta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Pergunta pergunta  = new Pergunta();
+				pergunta.setPergunta(textFieldCadastroPergunta.getText());
+				
+
+				// fazendo a validação dos dados
+				if ((textFieldCadastroPergunta.getText().isEmpty())) {
+				   JOptionPane.showMessageDialog(null, "Os campos não podem retornar vazios");
+				}
+				else {
+
+				    // instanciando a classe UsuarioDAO do pacote dao e criando seu objeto dao
+				    PerguntaDAO dao = new PerguntaDAO();
+				    dao.inserirpergunta(pergunta);
+				    try {
+						pergunta.Carregar_TabelaPergunta(pergunta_tabela);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				    JOptionPane.showMessageDialog(null, "Usuário "+textFieldCadastroPergunta.getText()+" inserido com sucesso! ");
+				}
+
+				// apaga os dados preenchidos nos campos de texto
+				textFieldCadastroPergunta.setText("");
+			}
+		});
+		btnCadastrarPergunta.setBounds(318, 81, 89, 23);
+		frame.getContentPane().add(btnCadastrarPergunta);
+		
+		JButton btnLimparCadastroPergunta = new JButton("Limpar");
+		btnLimparCadastroPergunta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textFieldCadastroPergunta.setText("");
+			}
+		});
+		btnLimparCadastroPergunta.setBounds(456, 81, 89, 23);
+		frame.getContentPane().add(btnLimparCadastroPergunta);
+		
+		JButton btnCarregarCadastroPerguntas = new JButton("Carregar");
+		btnCarregarCadastroPerguntas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					pergunta.Carregar_TabelaPergunta(pergunta_tabela);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		btnCarregarCadastroPerguntas.setBounds(318, 131, 89, 23);
+		frame.getContentPane().add(btnCarregarCadastroPerguntas);
+		
+		JScrollPane scrollPanePergunta = new JScrollPane();
+		scrollPanePergunta.setBounds(318, 165, 227, 92);
+		frame.getContentPane().add(scrollPanePergunta);
+		
+		pergunta_tabela = new JTable();
+		scrollPanePergunta.setViewportView(pergunta_tabela);
+		
+		JButton btnExcluirPergunta = new JButton("Excluir");
+		btnExcluirPergunta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		btnExcluirPergunta.setBounds(456, 131, 89, 23);
+		frame.getContentPane().add(btnExcluirPergunta);
 	}
 }

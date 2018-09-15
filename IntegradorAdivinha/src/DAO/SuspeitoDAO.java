@@ -11,16 +11,13 @@ import Classes.Suspeito;
 public class SuspeitoDAO { 
     private Connection connection;
     private Suspeito suspeito;
-    
-	
 	private ResultSet rs;
-
 
     public SuspeitoDAO(){ 
       
         this.connection = new Conecao().getConexao();
     } 
-    public void inserir(Suspeito suspeito){ 
+    public void inserirsuspeito(Suspeito suspeito){ 
        String sql = "INSERT INTO suspeito (caracteristica) VALUES(?)"; 
         try { 
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -33,7 +30,7 @@ public class SuspeitoDAO {
         } 
        
     }
-	public  List <Suspeito>  listar() throws SQLException {
+	public  List <Suspeito>  listarSuspeitos() throws SQLException {
 		List<Suspeito> lista_suspeito= new ArrayList<>();
 		Conecao conexao= new Conecao();
 		connection = conexao.getConexao();
