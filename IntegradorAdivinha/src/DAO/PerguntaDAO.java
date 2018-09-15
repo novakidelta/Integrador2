@@ -67,6 +67,7 @@ public class PerguntaDAO {
 		stmt.execute();
 		stmt.close();
 		connection.close();	
+		
 	}
 	
 }

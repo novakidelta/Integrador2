@@ -282,5 +282,6 @@ public class CadastroSuspeito {
 		JButton btnSalvarAlteradoPergunta = new JButton("Salvar");
 		btnSalvarAlteradoPergunta.setBounds(456, 268, 89, 23);
 		frame.getContentPane().add(btnSalvarAlteradoPergunta);
+		
 	}
 }

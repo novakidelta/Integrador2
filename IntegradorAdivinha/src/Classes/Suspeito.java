@@ -39,5 +39,4 @@ public class Suspeito {
 		}
 			tabela_suspeito.setModel(defaultTableModel_supeito);
 		}
-	
 }

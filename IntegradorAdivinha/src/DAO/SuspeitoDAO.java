@@ -66,6 +66,5 @@ public class SuspeitoDAO {
 		connection.close();	
 	}
 	
-	
     
 }
