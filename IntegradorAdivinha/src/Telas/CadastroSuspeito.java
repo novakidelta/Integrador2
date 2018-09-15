@@ -105,7 +105,7 @@ public class CadastroSuspeito {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				    JOptionPane.showMessageDialog(null, "Usuário "+textFieldCadastroSuspeito.getText()+" inserido com sucesso! ");
+				   // JOptionPane.showMessageDialog(null, "Usuário "+textFieldCadastroSuspeito.getText()+" inserido com sucesso! ");
 				}
 
 				// apaga os dados preenchidos nos campos de texto
@@ -157,6 +157,7 @@ public class CadastroSuspeito {
 				try {
 					ComandosJtable  cmdtable = new ComandosJtable();
 					dao.excluirSuspeito(cmdtable.PegaRegistroString(suspeito_tabela));
+					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -257,6 +258,7 @@ public class CadastroSuspeito {
 				try {
 					ComandosJtable  cmdtable = new ComandosJtable();
 					dao.excluirPergunta(cmdtable.PegaRegistroString(pergunta_tabela));
+					pergunta.Carregar_TabelaPergunta(pergunta_tabela);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -275,6 +277,7 @@ public class CadastroSuspeito {
 			public void actionPerformed(ActionEvent arg0) {
 				ComandosJtable  cmdtable = new ComandosJtable();
 				textFieldCadastroPergunta.setText(cmdtable.PegaRegistroString(pergunta_tabela));
+//				textFieldCadastroPergunta.setText(String.valueOf(cmdtable.PegaRegistro(pergunta_tabela)));
 			}
 		});
 		btnListarPerguntas.setBounds(318, 268, 89, 23);
