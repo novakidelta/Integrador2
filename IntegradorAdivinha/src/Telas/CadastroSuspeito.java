@@ -170,7 +170,7 @@ public class CadastroSuspeito {
 		btnAlterarSuspeito.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ComandosJtable  cmdtable = new ComandosJtable();
-				textFieldCadastroSuspeito.setText(String.valueOf(cmdtable.PegaRegistro(suspeito_tabela)));
+				textFieldCadastroSuspeito.setText(cmdtable.PegaRegistroString(suspeito_tabela));
 			}
 		});
 		btnAlterarSuspeito.setBounds(31, 268, 89, 23);
@@ -273,7 +273,8 @@ public class CadastroSuspeito {
 		JButton btnListarPerguntas = new JButton("Listar");
 		btnListarPerguntas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				ComandosJtable  cmdtable = new ComandosJtable();
+				textFieldCadastroPergunta.setText(cmdtable.PegaRegistroString(pergunta_tabela));
 			}
 		});
 		btnListarPerguntas.setBounds(318, 268, 89, 23);
