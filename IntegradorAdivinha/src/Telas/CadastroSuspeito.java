@@ -287,5 +287,6 @@ public class CadastroSuspeito {
 		btnSalvarAlteradoPergunta.setBounds(456, 268, 89, 23);
 		frame.getContentPane().add(btnSalvarAlteradoPergunta);
 		
+		
 	}
 }
