@@ -58,12 +58,12 @@ public class PerguntaDAO {
 		return lista_perguntas;
 	}
 	
-	public void excluirSuspeito (int id_Pergunta) throws SQLException{
+	public void excluirPergunta (String pergunta) throws SQLException{
 		Conecao conecao = new Conecao();
 		connection = conecao.getConexao();
-		sql="update perguntas set ativo=0 where pergunta =?;";
+		sql="delete from perguntas where pergunta =?;";
 		stmt =connection.prepareStatement(sql);
-		stmt.setInt(1, id_Pergunta);
+		stmt.setString(1, pergunta);
 		stmt.execute();
 		stmt.close();
 		connection.close();	

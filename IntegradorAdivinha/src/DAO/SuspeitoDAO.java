@@ -12,15 +12,17 @@ public class SuspeitoDAO {
     private Connection connection;
     private Suspeito suspeito;
 	private ResultSet rs;
-
+	String sql;
+	PreparedStatement stmt;
+	
     public SuspeitoDAO(){ 
       
         this.connection = new Conecao().getConexao();
     } 
     public void inserirsuspeito(Suspeito suspeito){ 
-       String sql = "INSERT INTO suspeito (caracteristica) VALUES(?)"; 
+       sql = "INSERT INTO suspeito (caracteristica) VALUES(?)"; 
         try { 
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt = connection.prepareStatement(sql);
             stmt.setString(1, suspeito.getCaracteristica());
             stmt.execute();
             stmt.close();
@@ -52,5 +54,18 @@ public class SuspeitoDAO {
 		
 		return lista_suspeito;
 	}
+	
+	public void excluirSuspeito (String caracteristica) throws SQLException{
+		Conecao conecao = new Conecao();
+		connection = conecao.getConexao();
+		sql="delete from suspeito where caracteristica =?;";
+		stmt =connection.prepareStatement(sql);
+		stmt.setString(1, caracteristica);
+		stmt.execute();
+		stmt.close();
+		connection.close();	
+	}
+	
+	
     
 }

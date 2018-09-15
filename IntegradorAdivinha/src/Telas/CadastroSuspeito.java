@@ -6,11 +6,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import Classes.ComandosJtable;
 import Classes.Pergunta;
 import Classes.Suspeito;
 import DAO.PerguntaDAO;
 import DAO.SuspeitoDAO;
 
+import javax.management.modelmbean.ModelMBeanOperationInfo;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -151,12 +153,28 @@ public class CadastroSuspeito {
 		JButton btnExcluirSuspeito = new JButton("Excluir");
 		btnExcluirSuspeito.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				PerguntaDAO dao = new PerguntaDAO();
-				//dao.excluirSuspeito();
+				SuspeitoDAO dao = new SuspeitoDAO();
+				try {
+					ComandosJtable  cmdtable = new ComandosJtable();
+					dao.excluirSuspeito(cmdtable.PegaRegistroString(suspeito_tabela));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnExcluirSuspeito.setBounds(180, 131, 89, 23);
 		frame.getContentPane().add(btnExcluirSuspeito);
+		
+		JButton btnAlterarSuspeito = new JButton("Listar");
+		btnAlterarSuspeito.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ComandosJtable  cmdtable = new ComandosJtable();
+				textFieldCadastroSuspeito.setText(String.valueOf(cmdtable.PegaRegistro(suspeito_tabela)));
+			}
+		});
+		btnAlterarSuspeito.setBounds(31, 268, 89, 23);
+		frame.getContentPane().add(btnAlterarSuspeito);
 		
 	
 		scrollPaneCadastro.setBounds(36, 165, 233, 92);
@@ -235,10 +253,34 @@ public class CadastroSuspeito {
 		JButton btnExcluirPergunta = new JButton("Excluir");
 		btnExcluirPergunta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				PerguntaDAO dao = new PerguntaDAO();
+				try {
+					ComandosJtable  cmdtable = new ComandosJtable();
+					dao.excluirPergunta(cmdtable.PegaRegistroString(pergunta_tabela));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnExcluirPergunta.setBounds(456, 131, 89, 23);
 		frame.getContentPane().add(btnExcluirPergunta);
+		
+		JButton btnSalvarAlteradoSuspeito = new JButton("Salvar");
+		btnSalvarAlteradoSuspeito.setBounds(180, 268, 89, 23);
+		frame.getContentPane().add(btnSalvarAlteradoSuspeito);
+		
+		JButton btnListarPerguntas = new JButton("Listar");
+		btnListarPerguntas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		btnListarPerguntas.setBounds(318, 268, 89, 23);
+		frame.getContentPane().add(btnListarPerguntas);
+		
+		JButton btnSalvarAlteradoPergunta = new JButton("Salvar");
+		btnSalvarAlteradoPergunta.setBounds(456, 268, 89, 23);
+		frame.getContentPane().add(btnSalvarAlteradoPergunta);
 	}
 }
