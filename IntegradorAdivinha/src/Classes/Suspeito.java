@@ -23,7 +23,6 @@ public class Suspeito {
 	
 	public void Carregar_TabelaSuspeito(JTable tabela_suspeito) throws SQLException{
 		DefaultTableModel defaultTableModel_supeito= new DefaultTableModel();
-		
 		defaultTableModel_supeito.addColumn("Caracteristicas");
 		
 		SuspeitoDAO suspeitoDao= new SuspeitoDAO();

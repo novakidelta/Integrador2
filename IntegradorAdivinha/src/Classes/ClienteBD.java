@@ -169,7 +169,7 @@ public class ClienteBD {
 		
 		stm.execute();
 		stm.close();
-		
+		con.close();
 		Sql="UPDATE pessoa SET codigo_pessoa=?,codigo_endereco=?,nome=?,telefone=?,dataNascimento=?,cpf=?,email=?,ativo=? WHERE codigo_pessoa=?";
 		
 		stm= con.prepareStatement(Sql);
