@@ -11,9 +11,19 @@ import DAO.SuspeitoDAO;
 
 public class Pergunta {
 
+	private static final Object Boolean = null;
 	private String pergunta;
 	private int IDPergunta;
+	private Boolean VouF;
 	
+	public Boolean getVouF() {
+		return VouF;
+	}
+
+	public void setVouF(Boolean vouF) {
+		VouF = vouF;
+	}
+
 	public int getIDPergunta() {
 		return IDPergunta;
 	}
@@ -32,7 +42,7 @@ public class Pergunta {
 	
 	public void Carregar_TabelaPergunta (JTable tabela_pergunta) throws SQLException{
 		DefaultTableModel defaultTableModel_pergunta= new DefaultTableModel();
-		
+
 		defaultTableModel_pergunta.addColumn("ID");
 		defaultTableModel_pergunta.addColumn("Pergunta");
 
@@ -50,5 +60,6 @@ public class Pergunta {
 		}
 			tabela_pergunta.setModel(defaultTableModel_pergunta);
 		}
+	
 	
 }

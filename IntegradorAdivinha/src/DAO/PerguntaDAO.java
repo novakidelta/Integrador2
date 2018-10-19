@@ -25,7 +25,7 @@ public class PerguntaDAO {
 		this.connection = new Conecao().getConexao();
 	}
 	public void inserirpergunta(Pergunta pergunta){ 
-	    sql = "INSERT INTO perguntas (pergunta) VALUES(?)"; 
+	    sql = "INSERT INTO pergunta (pergunta,situacao) VALUES(?,1)"; 
 	    try { 
 	        stmt = connection.prepareStatement(sql);
 	        stmt.setString(1, pergunta.getPergunta());
@@ -42,17 +42,16 @@ public class PerguntaDAO {
 		Conecao conexao= new Conecao();
 		connection = conexao.getConexao();
 	
-		String sql="select * from perguntas ";//pega somente os clientes ativos onde ativo é true quando é excluido o ativo vira false e a tabela não busca
+		String sql="select * from pergunta ";
 		PreparedStatement stmt = connection.prepareStatement(sql);
 		
 		stmt= connection.prepareStatement(sql);
 		rs=stmt.executeQuery();
 		while(rs.next()){			
 			Pergunta pergunta = new Pergunta();
-			pergunta.setIDPergunta(rs.getInt("IDPerguntas"));
+			pergunta.setIDPergunta(rs.getInt("IDPergunta"));
 			pergunta.setPergunta(rs.getString("pergunta"));
 			lista_perguntas.add(pergunta);
-			System.out.println(pergunta.getPergunta());
 			}
 		connection.close();
 		stmt.close();
@@ -64,16 +63,12 @@ public class PerguntaDAO {
 	public void ExcluirPergunta (int IDPergunta) throws SQLException{
 		Conecao conecao = new Conecao();
 		connection = conecao.getConexao();
-		/*sql="delete from perguntas where pergunta =?;";
-		stmt =connection.prepareStatement(sql);
-		stmt.setString(1, pergunta);*/
-		sql="delete from Perguntas where IdPerguntas =?;";
+		sql="delete from pergunta where IdPergunta =?;";
 		stmt=connection.prepareStatement(sql);
 		stmt.setInt(1, IDPergunta);
 		stmt.execute();
 		stmt.close();
 		connection.close();	
-		
 	}
 
 	/*public void alterarPergunta (int id_Alterar, Cliente c1) throws MyClassException, SQLException{

@@ -11,7 +11,24 @@ import DAO.SuspeitoDAO;
 public class Suspeito {
 	
 	private  String caracteristica;
-	
+	private String nome;
+	private int IDSuspeito;
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public int getIDSuspeito() {
+		return IDSuspeito;
+	}
+
+	public void setIDSuspeito(int iDSuspeito) {
+		IDSuspeito = iDSuspeito;
+	}
 
 	public  String getCaracteristica() {
 		return caracteristica;
@@ -23,15 +40,15 @@ public class Suspeito {
 	
 	public void Carregar_TabelaSuspeito(JTable tabela_suspeito) throws SQLException{
 		DefaultTableModel defaultTableModel_supeito= new DefaultTableModel();
+		defaultTableModel_supeito.addColumn("ID");
 		defaultTableModel_supeito.addColumn("Caracteristicas");
 		
 		SuspeitoDAO suspeitoDao= new SuspeitoDAO();
 			List<Suspeito> lista_suspeito= suspeitoDao.listarSuspeitos();
-			System.out.println(lista_suspeito.get(0).getCaracteristica());
 			
 			for(Suspeito suspeito : lista_suspeito){
 				
-				defaultTableModel_supeito.addRow(new Object[]{suspeito.getCaracteristica(),
+				defaultTableModel_supeito.addRow(new Object[]{suspeito.getIDSuspeito(),suspeito.getCaracteristica()
 						
 				});
 			

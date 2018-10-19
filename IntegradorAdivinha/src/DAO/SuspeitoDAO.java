@@ -20,10 +20,10 @@ public class SuspeitoDAO {
         this.connection = new Conecao().getConexao();
     } 
     public void inserirsuspeito(Suspeito suspeito){ 
-       sql = "INSERT INTO suspeito (caracteristica) VALUES(?)"; 
+       sql = "INSERT INTO suspeito (nomeSuspeito,situacao) VALUES(?,1)"; 
         try { 
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, suspeito.getCaracteristica());
+            stmt.setString(1, suspeito.getNome());
             stmt.execute();
             stmt.close();
         } 
@@ -44,7 +44,8 @@ public class SuspeitoDAO {
 		rs=stmt.executeQuery();
 		while(rs.next()){			
 			Suspeito suspeito =new Suspeito();
-			suspeito.setCaracteristica(rs.getString("caracteristica"));
+			suspeito.setIDSuspeito(rs.getInt("IDSuspeito"));
+			suspeito.setCaracteristica(rs.getString("nomeSuspeito"));
 			lista_suspeito.add(suspeito);
 			}
 		connection.close();
@@ -54,12 +55,12 @@ public class SuspeitoDAO {
 		return lista_suspeito;
 	}
 	
-	public void excluirSuspeito (String caracteristica) throws SQLException{
+	public void excluirSuspeito (int IDSuspeito) throws SQLException{
 		Conecao conecao = new Conecao();
 		connection = conecao.getConexao();
-		sql="delete from suspeito where caracteristica =?;";
-		stmt =connection.prepareStatement(sql);
-		stmt.setString(1, caracteristica);
+		sql="delete from suspeito where IdSuspeito =?;";
+		stmt=connection.prepareStatement(sql);
+		stmt.setInt(1, IDSuspeito);
 		stmt.execute();
 		stmt.close();
 		connection.close();	

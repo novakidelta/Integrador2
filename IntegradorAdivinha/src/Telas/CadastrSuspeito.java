@@ -10,7 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Classes.ComandosJtable;
+import Classes.Pergunta;
 import Classes.Suspeito;
+import DAO.PerguntaSuspeitoDAO;
 import DAO.SuspeitoDAO;
 
 import javax.swing.JTextField;
@@ -31,6 +33,8 @@ public class CadastrSuspeito extends JFrame {
 	private JTextField textFieldCadastroSuspeito;
 	private JTable suspeito_tabela;
 	private  Suspeito suspeito = new Suspeito();
+	private Pergunta  pergunta = new Pergunta();
+	private JTable pergunta_tabela;
 
 	/**
 	 * Launch the application.
@@ -53,7 +57,7 @@ public class CadastrSuspeito extends JFrame {
 	 */
 	public CadastrSuspeito() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 308, 436);
+		setBounds(100, 100, 541, 436);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -69,18 +73,33 @@ public class CadastrSuspeito extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Suspeito suspeitos = new Suspeito();
-				suspeitos.setCaracteristica(textFieldCadastroSuspeito.getText());
+				suspeitos.setNome(textFieldCadastroSuspeito.getText());
 				
 
-				// fazendo a validação dos dados
+				
 				if ((textFieldCadastroSuspeito.getText().isEmpty())) {
 				   JOptionPane.showMessageDialog(null, "Os campos não podem retornar vazios");
 				}
 				else {
-
-				    // instanciando a classe UsuarioDAO do pacote dao e criando seu objeto dao
+					
+					int FK_pergunta = 0;
+					int FK_suspeito = 0;
+					String FK_perguntaS;
+					
+					
+					
+				    
 				    SuspeitoDAO dao = new SuspeitoDAO();
+				    PerguntaSuspeitoDAO daoPS = new PerguntaSuspeitoDAO();
 				    dao.inserirsuspeito(suspeitos);
+				    
+				    ComandosJtable  cmdtable = new ComandosJtable();
+				   // FK_perguntaS=textFieldCadastroSuspeito.setText(cmdtable.PegaRegistro(pergunta_tabela));
+				    
+				    FK_suspeito=suspeitos.getIDSuspeito();
+				    
+				    daoPS.inserirFK(FK_pergunta, FK_suspeito);
+				    
 				    try {
 						suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
 					} catch (SQLException e) {
@@ -123,6 +142,7 @@ public class CadastrSuspeito extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
+					pergunta.Carregar_TabelaPergunta(pergunta_tabela);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -138,7 +158,7 @@ public class CadastrSuspeito extends JFrame {
 				SuspeitoDAO dao = new SuspeitoDAO();
 				try {
 					ComandosJtable  cmdtable = new ComandosJtable();
-					dao.excluirSuspeito(cmdtable.PegaRegistroString(suspeito_tabela));
+					dao.excluirSuspeito(cmdtable.PegaRegistro(suspeito_tabela));
 					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -185,6 +205,13 @@ public class CadastrSuspeito extends JFrame {
 		lblSuspeito.setFont(new Font("Knife Princess", Font.BOLD, 30));
 		lblSuspeito.setBounds(60, 9, 171, 79);
 		contentPane.add(lblSuspeito);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(299, 89, 192, 259);
+		contentPane.add(scrollPane);
+		
+		pergunta_tabela = new JTable();
+		scrollPane.setViewportView(pergunta_tabela);
 		
 	}
 }
