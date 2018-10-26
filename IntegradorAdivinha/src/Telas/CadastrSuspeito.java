@@ -26,6 +26,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class CadastrSuspeito extends JFrame {
 
@@ -57,20 +59,64 @@ public class CadastrSuspeito extends JFrame {
 	 */
 	public CadastrSuspeito() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 541, 436);
+		setBounds(100, 100, 699, 499);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setUndecorated(true);
+		setLocationRelativeTo(null);
+		
+		JLabel BtnVoltar = new JLabel("");
+		BtnVoltar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				TelaInicial telaInicial = new TelaInicial();
+				telaInicial.setVisible(true);
+				dispose();
+			}
+		});
+		BtnVoltar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnVoltar.png")));
+		BtnVoltar.setBounds(10, 430, 54, 58);
+		contentPane.add(BtnVoltar);
 		
 		textFieldCadastroSuspeito = new JTextField();
+		textFieldCadastroSuspeito.setBackground(Color.GRAY);
 		textFieldCadastroSuspeito.setColumns(10);
-		textFieldCadastroSuspeito.setBounds(21, 89, 243, 20);
+		textFieldCadastroSuspeito.setBounds(132, 51, 192, 20);
 		contentPane.add(textFieldCadastroSuspeito);
 		
-		JButton btnCadastrarSuspeito = new JButton("Cadastrar");
-		btnCadastrarSuspeito.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JScrollPane scrollPaneCadastro = new JScrollPane();
+		scrollPaneCadastro.setBounds(37, 228, 290, 215);
+		contentPane.add(scrollPaneCadastro);
+		
+		suspeito_tabela = new JTable();
+		suspeito_tabela.setForeground(new Color(255, 255, 255));
+		suspeito_tabela.setBackground(new Color(0, 128, 0));
+		suspeito_tabela.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int Indicelinha = suspeito_tabela.getSelectedRow();
+				textFieldCadastroSuspeito.setText(suspeito_tabela.getValueAt(Indicelinha, 0).toString());
+			}
+		});
+		scrollPaneCadastro.setViewportView(suspeito_tabela);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(372, 28, 296, 430);
+		contentPane.add(scrollPane);
+		
+		pergunta_tabela = new JTable();
+		pergunta_tabela.setBackground(new Color(0, 128, 0));
+		pergunta_tabela.setForeground(new Color(255, 255, 255));
+		scrollPane.setViewportView(pergunta_tabela);
+		
+		JLabel BtnCadastrar = new JLabel("");
+		BtnCadastrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+
 				
 				Suspeito suspeitos = new Suspeito();
 				suspeitos.setNome(textFieldCadastroSuspeito.getText());
@@ -81,25 +127,8 @@ public class CadastrSuspeito extends JFrame {
 				   JOptionPane.showMessageDialog(null, "Os campos não podem retornar vazios");
 				}
 				else {
-					
-					int FK_pergunta = 0;
-					int FK_suspeito = 0;
-					String FK_perguntaS;
-					
-					
-					
-				    
 				    SuspeitoDAO dao = new SuspeitoDAO();
-				    PerguntaSuspeitoDAO daoPS = new PerguntaSuspeitoDAO();
-				    dao.inserirsuspeito(suspeitos);
-				    
-				    ComandosJtable  cmdtable = new ComandosJtable();
-				   // FK_perguntaS=textFieldCadastroSuspeito.setText(cmdtable.PegaRegistro(pergunta_tabela));
-				    
-				    FK_suspeito=suspeitos.getIDSuspeito();
-				    
-				    daoPS.inserirFK(FK_pergunta, FK_suspeito);
-				    
+				    dao.inserirsuspeito(suspeitos);			    
 				    try {
 						suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
 					} catch (SQLException e) {
@@ -109,52 +138,41 @@ public class CadastrSuspeito extends JFrame {
 				   // JOptionPane.showMessageDialog(null, "Usuário "+textFieldCadastroSuspeito.getText()+" inserido com sucesso! ");
 				}
 
-				// apaga os dados preenchidos nos campos de texto
 				textFieldCadastroSuspeito.setText("");
 				
 			}
-		});
-		btnCadastrarSuspeito.setBounds(24, 135, 89, 23);
-		contentPane.add(btnCadastrarSuspeito);
-		
-		JButton btnLimparCadastroSuspeito = new JButton("Limpar");
-		btnLimparCadastroSuspeito.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				textFieldCadastroSuspeito.setText("");
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				BtnCadastrar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnCadastrarSpress.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				BtnCadastrar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnCadastrarNpress.png")));
 			}
 		});
-		btnLimparCadastroSuspeito.setBounds(173, 135, 89, 23);
-		contentPane.add(btnLimparCadastroSuspeito);
+		BtnCadastrar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnCadastrarNpress.png")));
+		BtnCadastrar.setBounds(31, 108, 98, 33);
+		contentPane.add(BtnCadastrar);
 		
-		JButton btnVoltar = new JButton("VOLTAR");
-		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				TelaInicial telaInicial = new TelaInicial();
-				telaInicial.setVisible(true);
-				dispose();
+		JLabel BtnAlterar = new JLabel("");
+		BtnAlterar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				BtnAlterar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnAlterarSpress.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				BtnAlterar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnAlterarNpress.png")));
 			}
 		});
-		btnVoltar.setBounds(98, 356, 89, 23);
-		contentPane.add(btnVoltar);
+		BtnAlterar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnAlterarNpress.png")));
+		BtnAlterar.setBounds(31, 172, 98, 33);
+		contentPane.add(BtnAlterar);
 		
-		JButton btnCarregarCadastro = new JButton("carregar");
-		btnCarregarCadastro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
-					pergunta.Carregar_TabelaPergunta(pergunta_tabela);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		btnCarregarCadastro.setBounds(24, 185, 89, 23);
-		contentPane.add(btnCarregarCadastro);
-		
-		JButton btnExcluirSuspeito = new JButton("Excluir");
-		btnExcluirSuspeito.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JLabel BtnExcluir = new JLabel("");
+		BtnExcluir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
 				SuspeitoDAO dao = new SuspeitoDAO();
 				try {
 					ComandosJtable  cmdtable = new ComandosJtable();
@@ -165,53 +183,73 @@ public class CadastrSuspeito extends JFrame {
 					e.printStackTrace();
 				}
 			}
-		});
-		btnExcluirSuspeito.setBounds(173, 185, 89, 23);
-		contentPane.add(btnExcluirSuspeito);
-		
-		JButton btnAlterarSuspeito = new JButton("Listar");
-		btnAlterarSuspeito.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				ComandosJtable  cmdtable = new ComandosJtable();
-				textFieldCadastroSuspeito.setText(cmdtable.PegaRegistroString(suspeito_tabela));
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				BtnExcluir.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnExcluirSpress.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				BtnExcluir.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnExcluirNpress.png")));
 			}
 		});
-		btnAlterarSuspeito.setBounds(24, 322, 89, 23);
-		contentPane.add(btnAlterarSuspeito);
+		BtnExcluir.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnExcluirNpress.png")));
+		BtnExcluir.setBounds(229, 172, 98, 33);
+		contentPane.add(BtnExcluir);
 		
-		JScrollPane scrollPaneCadastro = new JScrollPane();
-		scrollPaneCadastro.setBounds(26, 219, 233, 92);
-		contentPane.add(scrollPaneCadastro);
-		
-		suspeito_tabela = new JTable();
-		suspeito_tabela.addMouseListener(new MouseAdapter() {
+		JLabel BtnCarregar = new JLabel("");
+		BtnCarregar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				int Indicelinha = suspeito_tabela.getSelectedRow();
-				textFieldCadastroSuspeito.setText(suspeito_tabela.getValueAt(Indicelinha, 0).toString());
+				try {
+					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
+					pergunta.Carregar_TabelaPergunta(pergunta_tabela);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				BtnCarregar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnCarregarPress.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				BtnCarregar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnCarregarNPress.png")));
 			}
 		});
-		scrollPaneCadastro.setViewportView(suspeito_tabela);
+		BtnCarregar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnCarregarNPress.png")));
+		BtnCarregar.setBounds(229, 108, 98, 33);
+		contentPane.add(BtnCarregar);
 		
-		JButton btnSalvarAlteradoSuspeito = new JButton("Salvar");
-		btnSalvarAlteradoSuspeito.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnSalvarAlteradoSuspeito.setBounds(173, 322, 89, 23);
-		contentPane.add(btnSalvarAlteradoSuspeito);
+		JLabel Nome = new JLabel("");
+		Nome.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/Nome.png")));
+		Nome.setBounds(37, 39, 296, 42);
+		contentPane.add(Nome);
 		
-		JLabel lblSuspeito = new JLabel("SUSPEITO");
-		lblSuspeito.setFont(new Font("Knife Princess", Font.BOLD, 30));
-		lblSuspeito.setBounds(60, 9, 171, 79);
-		contentPane.add(lblSuspeito);
+		JLabel ImgTelaverde = new JLabel("");
+		ImgTelaverde.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/telaverdemedia.png")));
+		ImgTelaverde.setBounds(29, 216, 307, 237);
+		contentPane.add(ImgTelaverde);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(299, 89, 192, 259);
-		contentPane.add(scrollPane);
+		JLabel ImgBase = new JLabel("");
+		ImgBase.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/base.png")));
+		ImgBase.setBounds(-3, 17, 374, 453);
+		contentPane.add(ImgBase);
 		
-		pergunta_tabela = new JTable();
-		scrollPane.setViewportView(pergunta_tabela);
+		JLabel ImgTela = new JLabel("");
+		ImgTela.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/telaverde.png")));
+		ImgTela.setBounds(362, 17, 316, 453);
+		contentPane.add(ImgTela);
+		
+		JLabel ImgMoldura = new JLabel("");
+		ImgMoldura.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/Borda.png")));
+		ImgMoldura.setBounds(0, 0, 700, 500);
+		contentPane.add(ImgMoldura);
+		
+		JLabel ImgFundo = new JLabel("");
+		ImgFundo.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/fundo madeira.png")));
+		ImgFundo.setBounds(0, 0, 700, 500);
+		contentPane.add(ImgFundo);
 		
 	}
 }

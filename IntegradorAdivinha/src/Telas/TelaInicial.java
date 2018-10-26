@@ -10,14 +10,23 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import javax.swing.JTextField;
+import java.awt.Color;
+import javax.swing.ImageIcon;
+import java.awt.SystemColor;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class TelaInicial extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField textFieldNome;
 
-	/**
-	 * Launch the application.
-	 */
+	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -31,51 +40,129 @@ public class TelaInicial extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	
 	public TelaInicial() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 699, 500);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(null);
 		setContentPane(contentPane);
+		setUndecorated(true);
+		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 		
-		JButton btnJogar = new JButton("JOGAR");
-		btnJogar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JLabel BtnJogar = new JLabel("");
+		BtnJogar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				BtnJogar.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/JogarSpres.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				BtnJogar.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/JogarNpres.png")));
 			}
 		});
-		btnJogar.setBounds(277, 115, 89, 23);
-		contentPane.add(btnJogar);
+		BtnJogar.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/JogarNpres.png")));
+		BtnJogar.setBounds(515, 259, 98, 33);
+		contentPane.add(BtnJogar);
 		
-		JButton btnSuspeito = new JButton("SUSPEITO");
-		btnSuspeito.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				CadastrSuspeito cadastrSuspeito = new CadastrSuspeito();
-				cadastrSuspeito.setVisible(true);
+		JLabel Btnsair = new JLabel("");
+		Btnsair.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				Btnsair.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/SairSpres.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				Btnsair.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/SairNpres.png")));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.exit(0);
+			}
+		});
+		Btnsair.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/SairNpres.png")));
+		Btnsair.setBounds(333, 259, 98, 33);
+		contentPane.add(Btnsair);
+		
+		JLabel BeVindo = new JLabel("");
+		BeVindo.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/Bem vindos.png")));
+		BeVindo.setBounds(331, 100, 202, 75);
+		contentPane.add(BeVindo);
+		
+		textFieldNome = new JTextField();
+		textFieldNome.setFont(new Font("Arial", Font.PLAIN, 12));
+		textFieldNome.setColumns(10);
+		textFieldNome.setBackground(Color.LIGHT_GRAY);
+		textFieldNome.setBounds(416, 202, 197, 20);
+		contentPane.add(textFieldNome);
+		
+		JLabel ImgNOme = new JLabel("");
+		ImgNOme.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/Nome.png")));
+		ImgNOme.setBounds(326, 191, 296, 42);
+		contentPane.add(ImgNOme);
+		
+		JLabel ImgQuadrado = new JLabel("");
+		ImgQuadrado.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/quadrado.png")));
+		ImgQuadrado.setBounds(258, 42, 456, 378);
+		contentPane.add(ImgQuadrado);
+		
+		JLabel BtnGerenciarPergunta = new JLabel("");
+		BtnGerenciarPergunta.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				BtnGerenciarPergunta.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/GerenciarPerguntaMouseCima.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				BtnGerenciarPergunta.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/GerenciarPergunta.png")));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				CadastroPergunta cadastroPergunta = new CadastroPergunta();
+				cadastroPergunta.setVisible(true);
 				dispose();
 				
 			}
 		});
-		btnSuspeito.setBounds(57, 57, 89, 23);
-		contentPane.add(btnSuspeito);
+		BtnGerenciarPergunta.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/GerenciarPergunta.png")));
+		BtnGerenciarPergunta.setBounds(10, 59, 42, 42);
+		contentPane.add(BtnGerenciarPergunta);
 		
-		JButton btnPergunta = new JButton("PERGUNTA");
-		btnPergunta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				CadastroPergunta cadastroPergunta = new CadastroPergunta();
-				cadastroPergunta.setVisible(true);
+		JLabel BtnGerenciarSuspeito = new JLabel("");
+		BtnGerenciarSuspeito.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				BtnGerenciarSuspeito.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/GerenciarSuspeitoMouseCima.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				BtnGerenciarSuspeito.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/GerenciarSuspeito.png")));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				CadastrSuspeito cadastrSuspeito = new CadastrSuspeito();
+				cadastrSuspeito.setVisible(true);
 				dispose();
 			}
 		});
-		btnPergunta.setBounds(57, 145, 89, 23);
-		contentPane.add(btnPergunta);
+		BtnGerenciarSuspeito.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/GerenciarSuspeito.png")));
+		BtnGerenciarSuspeito.setBounds(10, 112, 42, 42);
+		contentPane.add(BtnGerenciarSuspeito);
 		
-		JLabel lblJogar = new JLabel("JOGAR");
-		lblJogar.setBounds(292, 47, 46, 14);
-		contentPane.add(lblJogar);
+		JLabel ImgFindTheSuspect = new JLabel("");
+		ImgFindTheSuspect.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/Find the Suspect.png")));
+		ImgFindTheSuspect.setBounds(20, 286, 263, 191);
+		contentPane.add(ImgFindTheSuspect);
+		
+		JLabel ImgBorda = new JLabel("");
+		ImgBorda.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/Borda.png")));
+		ImgBorda.setBounds(0, 0, 699, 500);
+		contentPane.add(ImgBorda);
+		
+		JLabel ImgBackground = new JLabel("");
+		ImgBackground.setBounds(0, 0, 699, 500);
+		ImgBackground.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/fundo madeira.png")));
+		contentPane.add(ImgBackground);
 	}
-
 }
