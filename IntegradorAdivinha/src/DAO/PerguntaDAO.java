@@ -6,10 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import Classes.Cliente;
 import Classes.Pergunta;
-import Classes.Suspeito;
 import Conexao.Conecao;
 
 public class PerguntaDAO {
@@ -25,7 +22,7 @@ public class PerguntaDAO {
 		this.connection = new Conecao().getConexao();
 	}
 	public void inserirpergunta(Pergunta pergunta){ 
-	    sql = "INSERT INTO pergunta (pergunta,situacao) VALUES(?,1)"; 
+	    sql = "INSERT INTO pergunta (pergunta,situacao) VALUES(?,0)"; 
 	    try { 
 	        stmt = connection.prepareStatement(sql);
 	        stmt.setString(1, pergunta.getPergunta());
@@ -37,6 +34,7 @@ public class PerguntaDAO {
 	    } 
 	   
 	}
+
 	public  List <Pergunta>  listarperguntas() throws SQLException {
 		List<Pergunta> lista_perguntas = new ArrayList<>();
 		Conecao conexao= new Conecao();
@@ -51,6 +49,7 @@ public class PerguntaDAO {
 			Pergunta pergunta = new Pergunta();
 			pergunta.setIDPergunta(rs.getInt("IDPergunta"));
 			pergunta.setPergunta(rs.getString("pergunta"));
+			pergunta.setVouF(rs.getBoolean("situacao"));
 			lista_perguntas.add(pergunta);
 			}
 		connection.close();

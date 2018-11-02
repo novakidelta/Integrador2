@@ -38,6 +38,8 @@ public class Suspeito {
 		this.caracteristica = caracteristica;
 	}
 	
+	
+	
 	public void Carregar_TabelaSuspeito(JTable tabela_suspeito) throws SQLException{
 		DefaultTableModel defaultTableModel_supeito= new DefaultTableModel();
 		defaultTableModel_supeito.addColumn("ID");

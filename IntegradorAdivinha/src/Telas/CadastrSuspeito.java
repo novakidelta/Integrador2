@@ -1,19 +1,20 @@
 package Telas;
 
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import Classes.ComandosJtable;
+import Classes.IDtabela;
 import Classes.Pergunta;
+import Classes.PerguntaSuspeito;
 import Classes.Suspeito;
 import DAO.PerguntaSuspeitoDAO;
 import DAO.SuspeitoDAO;
+import modelos.ButtonColumn;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -23,11 +24,14 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.Component;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 public class CadastrSuspeito extends JFrame {
 
@@ -36,7 +40,7 @@ public class CadastrSuspeito extends JFrame {
 	private JTable suspeito_tabela;
 	private  Suspeito suspeito = new Suspeito();
 	private Pergunta  pergunta = new Pergunta();
-	private JTable pergunta_tabela;
+	public  JTable pergunta_tabela;
 
 	/**
 	 * Launch the application.
@@ -76,6 +80,7 @@ public class CadastrSuspeito extends JFrame {
 				dispose();
 			}
 		});
+		setUndecorated(true);
 		BtnVoltar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnVoltar.png")));
 		BtnVoltar.setBounds(10, 430, 54, 58);
 		contentPane.add(BtnVoltar);
@@ -107,6 +112,13 @@ public class CadastrSuspeito extends JFrame {
 		contentPane.add(scrollPane);
 		
 		pergunta_tabela = new JTable();
+		pergunta_tabela.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+			}
+		));
+		
 		pergunta_tabela.setBackground(new Color(0, 128, 0));
 		pergunta_tabela.setForeground(new Color(255, 255, 255));
 		scrollPane.setViewportView(pergunta_tabela);
@@ -119,7 +131,9 @@ public class CadastrSuspeito extends JFrame {
 
 				
 				Suspeito suspeitos = new Suspeito();
+				PerguntaSuspeito perguntaSuspeito = new PerguntaSuspeito();
 				suspeitos.setNome(textFieldCadastroSuspeito.getText());
+				
 				
 
 				
@@ -128,7 +142,11 @@ public class CadastrSuspeito extends JFrame {
 				}
 				else {
 				    SuspeitoDAO dao = new SuspeitoDAO();
+				    PerguntaSuspeitoDAO dao2 = new PerguntaSuspeitoDAO();
+				    
+				   // dao2.inserirPerguntaeSuspeito(perguntaSuspeito);
 				    dao.inserirsuspeito(suspeitos);			    
+				    
 				    try {
 						suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
 					} catch (SQLException e) {
@@ -163,6 +181,23 @@ public class CadastrSuspeito extends JFrame {
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				BtnAlterar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnAlterarNpress.png")));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				IDtabela idtabela = new IDtabela();
+				PerguntaSuspeito perguntaSuspeito = new PerguntaSuspeito();
+				int linha = suspeito_tabela.getSelectedRow();
+				System.out.println("linha"+linha);
+				idtabela.setID((int) suspeito_tabela.getValueAt(linha, 0));
+				// aqui ele deve listar todas as perguntas com o estado dela que esta na tabela com dois
+				try {
+					perguntaSuspeito.Carregar_TabelaPerguntaSuspeito(pergunta_tabela);
+					ButtonColumn buttonColumn = new ButtonColumn(pergunta_tabela,2 );
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		BtnAlterar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnAlterarNpress.png")));
@@ -201,8 +236,11 @@ public class CadastrSuspeito extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
 					pergunta.Carregar_TabelaPergunta(pergunta_tabela);
+					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
+					ButtonColumn buttonColumn = new ButtonColumn(pergunta_tabela,2 );
+					
+
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -251,5 +289,9 @@ public class CadastrSuspeito extends JFrame {
 		ImgFundo.setBounds(0, 0, 700, 500);
 		contentPane.add(ImgFundo);
 		
+		
+		
 	}
+
+	
 }

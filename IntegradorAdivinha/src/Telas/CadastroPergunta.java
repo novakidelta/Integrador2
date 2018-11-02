@@ -1,33 +1,22 @@
 package Telas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import Classes.ComandosJtable;
 import Classes.Pergunta;
 import DAO.PerguntaDAO;
-
 import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Dialog.ModalExclusionType;
-import java.awt.Window.Type;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JCheckBox;
 
 public class CadastroPergunta extends JFrame {
 
@@ -244,10 +233,5 @@ public class CadastroPergunta extends JFrame {
 		Background.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/fundo madeira.png")));
 		Background.setBounds(0, 0, 700, 500);
 		contentPane.add(Background);
-	}
-	private static class __Tmp {
-		private static void __tmp() {
-			  javax.swing.JPanel __wbp_panel = new javax.swing.JPanel();
-		}
 	}
 }

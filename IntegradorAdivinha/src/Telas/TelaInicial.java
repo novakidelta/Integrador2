@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import DAO.JogarDAO;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -13,6 +16,8 @@ import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.SQLException;
+
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.ImageIcon;
@@ -60,6 +65,12 @@ public class TelaInicial extends JFrame {
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				BtnJogar.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/JogarNpres.png")));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Jogar jogar = new Jogar();
+				jogar.setVisible(true);
+				dispose();
 			}
 		});
 		BtnJogar.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/JogarNpres.png")));

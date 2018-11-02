@@ -1,10 +1,28 @@
 package Classes;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import DAO.PerguntaDAO;
+import DAO.PerguntaSuspeitoDAO;
+import DAO.SuspeitoDAO;
 
 public class PerguntaSuspeito {
 	
 	private Integer FK_IDPergunta;
 	private Integer FK_IDSuspeito;
+	private Integer FK_SusSit;
+
+	public Integer getFK_SusSit() {
+		return FK_SusSit;
+	}
+
+	public void setFK_SusSit(Integer fK_SusSit) {
+		FK_SusSit = fK_SusSit;
+	}
 
 	public Integer getFK_IDPergunta() {
 		return FK_IDPergunta;
@@ -22,4 +40,29 @@ public class PerguntaSuspeito {
 		FK_IDSuspeito = fK_IDSuspeito;
 	}
 
+public void Carregar_TabelaPerguntaSuspeito (JTable tabela_perguntasuspeito) throws SQLException{
+		
+		DefaultTableModel defaultTableModel_perguntasuspeito= new DefaultTableModel() {
+			Class[] columnTypes = new Class[] {
+					Object.class,Object.class,Object.class
+				};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		};
+		
+		defaultTableModel_perguntasuspeito.addColumn("ID");
+		defaultTableModel_perguntasuspeito.addColumn("Pergunta");
+		defaultTableModel_perguntasuspeito.addColumn("Situação");
+		
+		
+		PerguntaSuspeitoDAO perguntaSuspeitoDAO = new PerguntaSuspeitoDAO();
+		List<Pergunta> lista_perguntas = perguntaSuspeitoDAO.listarperguntas();
+			
+			for(Pergunta pergunta : lista_perguntas){
+				defaultTableModel_perguntasuspeito.addRow(new Object[]{pergunta.getIDPergunta(),pergunta.getPergunta(),FK_SusSit});
+		}
+			tabela_perguntasuspeito.setModel(defaultTableModel_perguntasuspeito);
+		}
+	
 }

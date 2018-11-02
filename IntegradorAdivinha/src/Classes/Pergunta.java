@@ -2,16 +2,12 @@ package Classes;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import DAO.PerguntaDAO;
-import DAO.SuspeitoDAO;
 
 public class Pergunta {
 
-	private static final Object Boolean = null;
 	private String pergunta;
 	private int IDPergunta;
 	private Boolean VouF;
@@ -40,22 +36,35 @@ public class Pergunta {
 		return pergunta;
 	}
 	
-	public void Carregar_TabelaPergunta (JTable tabela_pergunta) throws SQLException{
-		DefaultTableModel defaultTableModel_pergunta= new DefaultTableModel();
 
+	
+	public void Carregar_TabelaPergunta (JTable tabela_pergunta) throws SQLException{
+		
+		DefaultTableModel defaultTableModel_pergunta= new DefaultTableModel() {
+			Class[] columnTypes = new Class[] {
+					Object.class,Object.class,Object.class
+				};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		};
+		
+		
+		
 		defaultTableModel_pergunta.addColumn("ID");
 		defaultTableModel_pergunta.addColumn("Pergunta");
-
+		defaultTableModel_pergunta.addColumn("Situação");
+		
+		
+	
+		
 		
 		
 		PerguntaDAO perguntaDao = new PerguntaDAO();
 			List<Pergunta> lista_perguntas = perguntaDao.listarperguntas();
 			
 			for(Pergunta pergunta : lista_perguntas){
-				
-				defaultTableModel_pergunta.addRow(new Object[]{pergunta.getIDPergunta(),pergunta.getPergunta()
-						
-				});
+				defaultTableModel_pergunta.addRow(new Object[]{pergunta.getIDPergunta(),pergunta.getPergunta(),"botao"});
 			
 		}
 			tabela_pergunta.setModel(defaultTableModel_pergunta);

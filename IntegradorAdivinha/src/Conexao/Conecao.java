@@ -57,7 +57,6 @@ public class Conecao {
             Class.forName(driver);
             /*obtem conexão com o banco de dados*/
             conexao = DriverManager.getConnection(url, usuario, senha);
-            System.out.println("Conexao efetuada com sucesso!!!");
         }
         /*caso de erro de carregamento de driver*/ 
         catch (ClassNotFoundException ex) {
