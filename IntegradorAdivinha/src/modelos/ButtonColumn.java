@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultCellEditor;
@@ -32,12 +33,15 @@ implements TableCellRenderer, TableCellEditor, ActionListener{
     JButton renderButton;
     JButton editButton;
     String text;
+    String situacao;
+    JTable tablesuspeito;
     PerguntaSuspeitoDAO dao = new PerguntaSuspeitoDAO();
 
-        public ButtonColumn(JTable table, int column)
+        public ButtonColumn(JTable table,JTable tablesuspeito, int column)
         {
             super();
             this.table = table;
+            this.tablesuspeito = tablesuspeito;
             renderButton = new JButton();
             editButton = new JButton();
             editButton.setFocusPainted( false );
@@ -50,7 +54,7 @@ implements TableCellRenderer, TableCellEditor, ActionListener{
             JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
         {
    
-            if (hasFocus)
+            /*if (hasFocus)
             {
                 renderButton.setBackground(new Color(0, 0, 255));
             }
@@ -61,7 +65,7 @@ implements TableCellRenderer, TableCellEditor, ActionListener{
             else
             {
 
-            }
+            }*/
             renderButton.setText( (value == null) ? "" : value.toString() );
             return renderButton;
         }
@@ -79,17 +83,32 @@ implements TableCellRenderer, TableCellEditor, ActionListener{
         public void actionPerformed(ActionEvent e)
         {
             fireEditingStopped();
-            int linha = table.getSelectedRow();
-            int id = (int) table.getValueAt(linha, 0);
-            PerguntaSuspeito perguntaSuspeito = new PerguntaSuspeito();
-            CadastrSuspeito  cadastrSuspeito = new CadastrSuspeito();
+            situacao="";
             
-            perguntaSuspeito.setFK_IDPergunta(id);
-            perguntaSuspeito.setFK_IDSuspeito(1);
-            perguntaSuspeito.setFK_SusSit(1);
-            dao.inserirPerguntaeSuspeito(perguntaSuspeito);
-
-            System.out.println(table.getValueAt(linha, 0));
+            int linhaPergunta = table.getSelectedRow();
+            int idpergunta = (int) table.getValueAt(linhaPergunta, 0);
+            int linhaSuspeito =  tablesuspeito.getSelectedRow();
+            int idSuspeito = (int) tablesuspeito.getValueAt(linhaSuspeito, 0);
+            PerguntaSuspeito perguntaSuspeito = new PerguntaSuspeito();
+            situacao = (String) table.getValueAt(linhaPergunta, 2);
+            System.out.println(linhaPergunta +  idpergunta);
+            if(situacao== "ADICIONAR") {
+            	perguntaSuspeito.setFK_IDPergunta(idpergunta);
+                perguntaSuspeito.setFK_IDSuspeito(idSuspeito);
+                perguntaSuspeito.setFK_SusSit(1);
+            	dao.inserirPerguntaeSuspeito(perguntaSuspeito);
+            }
+            else if (situacao == "REMOVER") {
+            	try {
+            		System.out.println("remover");
+					dao.ExcluirPerguntaeSuspeito(idpergunta, idSuspeito);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+            
+            
             
         }
 

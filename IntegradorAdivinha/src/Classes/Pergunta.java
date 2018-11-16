@@ -53,7 +53,6 @@ public class Pergunta {
 		
 		defaultTableModel_pergunta.addColumn("ID");
 		defaultTableModel_pergunta.addColumn("Pergunta");
-		defaultTableModel_pergunta.addColumn("Situação");
 		
 		
 	
@@ -64,7 +63,7 @@ public class Pergunta {
 			List<Pergunta> lista_perguntas = perguntaDao.listarperguntas();
 			
 			for(Pergunta pergunta : lista_perguntas){
-				defaultTableModel_pergunta.addRow(new Object[]{pergunta.getIDPergunta(),pergunta.getPergunta(),"botao"});
+				defaultTableModel_pergunta.addRow(new Object[]{pergunta.getIDPergunta(),pergunta.getPergunta()});
 			
 		}
 			tabela_pergunta.setModel(defaultTableModel_pergunta);

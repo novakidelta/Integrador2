@@ -8,30 +8,28 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import Classes.ComandosJtable;
-import Classes.IDtabela;
 import Classes.Pergunta;
 import Classes.PerguntaSuspeito;
 import Classes.Suspeito;
+import DAO.PerguntaDAO;
 import DAO.PerguntaSuspeitoDAO;
 import DAO.SuspeitoDAO;
+import Listagem.PerguntaID;
 import modelos.ButtonColumn;
 
 import javax.swing.JTextField;
-import javax.swing.JButton;
+import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import java.awt.Color;
-import java.awt.Component;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 public class CadastrSuspeito extends JFrame {
 
@@ -184,15 +182,52 @@ public class CadastrSuspeito extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				IDtabela idtabela = new IDtabela();
 				PerguntaSuspeito perguntaSuspeito = new PerguntaSuspeito();
+				Pergunta pergunta =  new Pergunta();
+				
+				PerguntaDAO perguntaDao = new PerguntaDAO();
+				PerguntaSuspeitoDAO perguntaSuspeitoDAO = new PerguntaSuspeitoDAO();
+				
 				int linha = suspeito_tabela.getSelectedRow();
-				System.out.println("linha"+linha);
-				idtabela.setID((int) suspeito_tabela.getValueAt(linha, 0));
-				// aqui ele deve listar todas as perguntas com o estado dela que esta na tabela com dois
-				try {
-					perguntaSuspeito.Carregar_TabelaPerguntaSuspeito(pergunta_tabela);
-					ButtonColumn buttonColumn = new ButtonColumn(pergunta_tabela,2 );
+	            int id = (int) suspeito_tabela.getValueAt(linha, 0);
+	            try {
+	            	
+	            	
+	            	List<PerguntaID> listaParaAtualizar = new ArrayList();
+	            	List<PerguntaID> listaComNovosDados = new ArrayList();
+	            	
+	            	listaParaAtualizar.clear();
+	            	listaComNovosDados.clear();
+	            	
+	            	listaParaAtualizar.addAll(perguntaDao.listarIDperguntas());
+	            	listaComNovosDados.addAll(perguntaSuspeitoDAO.listartFKIDPerguntas(id));
+	            	
+	            	//listaComNovosDados.retainAll(listaParaAtualizar);
+	            	listaParaAtualizar.removeAll(listaComNovosDados);
+	            	listaParaAtualizar.addAll(listaComNovosDados);
+	            	
+	            	int atualizar = listaParaAtualizar.size();
+	            	int listanova = listaComNovosDados.size();
+	            	System.out.println(atualizar);
+	            	
+	            	
+	            /*	for(int j=0;j<atualizar;j++){
+	            		for(int i=0;i<listanova;i++) {
+	            			if(listaParaAtualizar.get(j).getIDPergunta()==listaComNovosDados.get(i).getIDPergunta()) {
+	            				listaParaAtualizar.remove(listaParaAtualizar.get(j));
+	            				listaParaAtualizar.addAll(listaComNovosDados);
+	            			}
+	            			
+	            		}
+	            	}*/
+	            	
+	            	
+
+	            	perguntaSuspeito.Carregar_TabelaPerguntaID(pergunta_tabela, listaParaAtualizar);
+	            	pergunta_tabela.getColumnModel().getColumn(0).setPreferredWidth(0);
+	            	pergunta_tabela.getColumnModel().getColumn(1).setPreferredWidth(110);
+	            	pergunta_tabela.getColumnModel().getColumn(2).setPreferredWidth(70);
+					ButtonColumn buttonColumn = new ButtonColumn(pergunta_tabela, suspeito_tabela, 2);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -236,10 +271,7 @@ public class CadastrSuspeito extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					pergunta.Carregar_TabelaPergunta(pergunta_tabela);
-					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);
-					ButtonColumn buttonColumn = new ButtonColumn(pergunta_tabela,2 );
-					
+					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);					
 
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block

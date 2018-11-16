@@ -15,7 +15,6 @@ public class JogarDAO {
 		
 		jogar.lista_perguntas = perguntaDao.listarperguntas();
 		Collections.shuffle(jogar.lista_perguntas);// pega a arraylist e embaralha as perguntas
-		System.out.println(jogar.lista_perguntas.size());
 		
 		return jogar.lista_perguntas;
 	}

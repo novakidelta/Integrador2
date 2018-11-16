@@ -9,12 +9,14 @@ import javax.swing.table.DefaultTableModel;
 import DAO.PerguntaDAO;
 import DAO.PerguntaSuspeitoDAO;
 import DAO.SuspeitoDAO;
+import Listagem.PerguntaID;
 
 public class PerguntaSuspeito {
 	
 	private Integer FK_IDPergunta;
 	private Integer FK_IDSuspeito;
 	private Integer FK_SusSit;
+
 
 	public Integer getFK_SusSit() {
 		return FK_SusSit;
@@ -40,7 +42,7 @@ public class PerguntaSuspeito {
 		FK_IDSuspeito = fK_IDSuspeito;
 	}
 
-public void Carregar_TabelaPerguntaSuspeito (JTable tabela_perguntasuspeito) throws SQLException{
+public void Carregar_TabelaPerguntaSuspeito (JTable tabela_perguntasuspeito,int IDSuspeito) throws SQLException{
 		
 		DefaultTableModel defaultTableModel_perguntasuspeito= new DefaultTableModel() {
 			Class[] columnTypes = new Class[] {
@@ -51,18 +53,41 @@ public void Carregar_TabelaPerguntaSuspeito (JTable tabela_perguntasuspeito) thr
 			}
 		};
 		
-		defaultTableModel_perguntasuspeito.addColumn("ID");
+		defaultTableModel_perguntasuspeito.addColumn("Nome");
 		defaultTableModel_perguntasuspeito.addColumn("Pergunta");
 		defaultTableModel_perguntasuspeito.addColumn("Situação");
 		
 		
 		PerguntaSuspeitoDAO perguntaSuspeitoDAO = new PerguntaSuspeitoDAO();
-		List<Pergunta> lista_perguntas = perguntaSuspeitoDAO.listarperguntas();
+		List<ListarSqlFK> lista_perguntas = perguntaSuspeitoDAO.listartabela(IDSuspeito);
 			
-			for(Pergunta pergunta : lista_perguntas){
-				defaultTableModel_perguntasuspeito.addRow(new Object[]{pergunta.getIDPergunta(),pergunta.getPergunta(),FK_SusSit});
+			for(ListarSqlFK fk : lista_perguntas){
+				defaultTableModel_perguntasuspeito.addRow(new Object[]{fk.getListaNomeSuspeito(),fk.getListaPergunta(),fk.getListaSusSit()});
 		}
 			tabela_perguntasuspeito.setModel(defaultTableModel_perguntasuspeito);
 		}
+
+//////////////////////////////////////////////////////////////
+
+public void Carregar_TabelaPerguntaID(JTable tabela_perguntasuspeito,List<PerguntaID> lista_perguntas) throws SQLException{
 	
+	DefaultTableModel defaultTableModel_perguntasuspeito= new DefaultTableModel() {
+		Class[] columnTypes = new Class[] {
+				Object.class,Object.class,Object.class
+			};
+		public Class getColumnClass(int columnIndex) {
+			return columnTypes[columnIndex];
+		}
+	};
+	
+	defaultTableModel_perguntasuspeito.addColumn("ID");
+	defaultTableModel_perguntasuspeito.addColumn("Pergunta");
+	defaultTableModel_perguntasuspeito.addColumn("Situação");
+
+		for(PerguntaID fk : lista_perguntas){
+			defaultTableModel_perguntasuspeito.addRow(new Object[]{fk.getIDPergunta(),fk.getPergunta(),fk.getSituacao()});
+	}
+		tabela_perguntasuspeito.setModel(defaultTableModel_perguntasuspeito);
+	}
 }
+

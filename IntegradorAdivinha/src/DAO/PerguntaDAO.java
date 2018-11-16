@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Classes.Pergunta;
 import Conexao.Conecao;
+import Listagem.PerguntaID;
 
 public class PerguntaDAO {
 	
@@ -15,6 +16,7 @@ public class PerguntaDAO {
     private Pergunta pergunta;
 	private ResultSet rs;
 	private PreparedStatement stmt;
+	boolean situacao;
 	String sql;
 	
 	
@@ -58,7 +60,37 @@ public class PerguntaDAO {
 		
 		return lista_perguntas;
 	}
+	//////////////////////////
+	public  List <PerguntaID>  listarIDperguntas() throws SQLException {
+		List<PerguntaID> lista_IDperguntas = new ArrayList<>();
+		Conecao conexao= new Conecao();
+		connection = conexao.getConexao();
 	
+		String sql="select IDPergunta,pergunta,situacao from pergunta ";
+		PreparedStatement stmt = connection.prepareStatement(sql);
+		
+		stmt= connection.prepareStatement(sql);
+		rs=stmt.executeQuery();
+		while(rs.next()){			
+			PerguntaID pergunta = new PerguntaID();
+			pergunta.setIDPergunta(rs.getInt("IDPergunta"));
+			pergunta.setPergunta(rs.getString("pergunta"));
+			situacao=(rs.getBoolean("situacao"));
+			if(situacao == false) {
+				pergunta.setSituacao("ADICIONAR");
+			}
+			else if(situacao == true) {
+				pergunta.setSituacao("REMOVER");
+			}
+			lista_IDperguntas.add(pergunta);
+			}
+		connection.close();
+		stmt.close();
+		rs.close();
+		
+		return lista_IDperguntas;
+	}
+	///////////////////////////////////
 	public void ExcluirPergunta (int IDPergunta) throws SQLException{
 		Conecao conecao = new Conecao();
 		connection = conecao.getConexao();

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import DAO.JogarDAO;
+import DAO.PerguntaSuspeitoDAO;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;

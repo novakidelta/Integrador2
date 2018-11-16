@@ -186,6 +186,8 @@ public class CadastroPergunta extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				try {
 					pergunta.Carregar_TabelaPergunta(pergunta_tabela);
+	            	pergunta_tabela.getColumnModel().getColumn(0).setPreferredWidth(0);
+	            	pergunta_tabela.getColumnModel().getColumn(1).setPreferredWidth(180);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
