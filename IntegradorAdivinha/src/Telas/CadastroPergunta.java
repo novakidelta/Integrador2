@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
 
 public class CadastroPergunta extends JFrame {
 
@@ -55,6 +56,7 @@ public class CadastroPergunta extends JFrame {
 		setLocationRelativeTo(null);
 		
 		textFieldCadastroPergunta = new JTextField();
+		textFieldCadastroPergunta.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textFieldCadastroPergunta.setBackground(Color.GRAY);
 		textFieldCadastroPergunta.setColumns(10);
 		textFieldCadastroPergunta.setBounds(133, 162, 188, 20);
@@ -69,6 +71,15 @@ public class CadastroPergunta extends JFrame {
 		pergunta_tabela.setForeground(Color.WHITE);
 		pergunta_tabela.setBackground(new Color(0, 128, 0));
 		scrollPanePergunta.setViewportView(pergunta_tabela);
+		
+		try {
+			pergunta.Carregar_TabelaPergunta(pergunta_tabela);
+        	pergunta_tabela.getColumnModel().getColumn(0).setPreferredWidth(0);
+        	pergunta_tabela.getColumnModel().getColumn(1).setPreferredWidth(180);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 		
 		JLabel ImgPergunta = new JLabel("");
 		ImgPergunta.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/Pergunta.png")));
@@ -117,21 +128,6 @@ public class CadastroPergunta extends JFrame {
 		BtnCadastrar.setBounds(38, 216, 98, 33);
 		contentPane.add(BtnCadastrar);
 		
-		JLabel BtnAlterar = new JLabel("");
-		BtnAlterar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				BtnAlterar.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/BtnAlterarSpress.png")));
-			}
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				BtnAlterar.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/BtnAlterarNpress.png")));
-			}
-		});
-		BtnAlterar.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/BtnAlterarNpress.png")));
-		BtnAlterar.setBounds(38, 280, 98, 33);
-		contentPane.add(BtnAlterar);
-		
 		JLabel BtnExcluir = new JLabel("");
 		BtnExcluir.addMouseListener(new MouseAdapter() {
 			@Override
@@ -156,7 +152,7 @@ public class CadastroPergunta extends JFrame {
 			}
 		});
 		BtnExcluir.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/BtnExcluirNpress.png")));
-		BtnExcluir.setBounds(236, 280, 98, 33);
+		BtnExcluir.setBounds(226, 218, 98, 33);
 		contentPane.add(BtnExcluir);
 		
 		JLabel BtnVoltar = new JLabel("");
@@ -179,32 +175,6 @@ public class CadastroPergunta extends JFrame {
 		BtnVoltar.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/BtnVoltar.png")));
 		BtnVoltar.setBounds(28, 411, 54, 58);
 		contentPane.add(BtnVoltar);
-		
-		JLabel BtnCarregar = new JLabel("");
-		BtnCarregar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				try {
-					pergunta.Carregar_TabelaPergunta(pergunta_tabela);
-	            	pergunta_tabela.getColumnModel().getColumn(0).setPreferredWidth(0);
-	            	pergunta_tabela.getColumnModel().getColumn(1).setPreferredWidth(180);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
-			}
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				BtnCarregar.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/BtnCarregarPress.png")));
-			}
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				BtnCarregar.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/BtnCarregarNPress.png")));
-			}
-		});
-		BtnCarregar.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/BtnCarregarNPress.png")));
-		BtnCarregar.setBounds(236, 216, 98, 33);
-		contentPane.add(BtnCarregar);
 		
 		JLabel ImgGerenciar = new JLabel("");
 		ImgGerenciar.setIcon(new ImageIcon(CadastroPergunta.class.getResource("/Imagens/gerenciar.png")));

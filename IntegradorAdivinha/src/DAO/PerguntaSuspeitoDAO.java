@@ -9,6 +9,7 @@ import java.util.List;
 
 import Classes.Jogar;
 import Classes.ListarSqlFK;
+import Classes.Pergunta;
 import Classes.PerguntaSuspeito;
 import Conexao.Conecao;
 import Listagem.PerguntaID;
@@ -144,7 +145,36 @@ public class PerguntaSuspeitoDAO {
 		
 		return lista_perguntasFKID;
 	}
+	//////////////////////////
 	
+	
+	public  String listarsuspeitofinal(int IDSuspeito) throws SQLException {
+		String nomeSuspeitoFinal = null;
+		Conecao conexao= new Conecao();
+		connection = conexao.getConexao();
+	
+		String sql=" select nomeSuspeito " + 
+				" from suspeito " + 
+				" where IDSuspeito = ?";
+		
+		PreparedStatement stmt = connection.prepareStatement(sql);
+		
+		stmt= connection.prepareStatement(sql);
+		rs=stmt.executeQuery();
+		while(rs.next()){			
+			nomeSuspeitoFinal=rs.getString("nomeSuspeito");
+			}
+		connection.close();
+		stmt.close();
+		rs.close();
+		
+		return nomeSuspeitoFinal;
+	}
+		
+
+	
+	
+			
 	
 
 }

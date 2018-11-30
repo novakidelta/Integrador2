@@ -103,7 +103,8 @@ public class TelaInicial extends JFrame {
 		contentPane.add(BeVindo);
 		
 		textFieldNome = new JTextField();
-		textFieldNome.setFont(new Font("Arial", Font.PLAIN, 12));
+		textFieldNome.setForeground(Color.BLACK);
+		textFieldNome.setFont(new Font("Arial", Font.BOLD, 14));
 		textFieldNome.setColumns(10);
 		textFieldNome.setBackground(Color.LIGHT_GRAY);
 		textFieldNome.setBounds(416, 202, 197, 20);

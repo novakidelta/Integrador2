@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Font;
 
 public class CadastrSuspeito extends JFrame {
 
@@ -84,13 +85,14 @@ public class CadastrSuspeito extends JFrame {
 		contentPane.add(BtnVoltar);
 		
 		textFieldCadastroSuspeito = new JTextField();
+		textFieldCadastroSuspeito.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textFieldCadastroSuspeito.setBackground(Color.GRAY);
 		textFieldCadastroSuspeito.setColumns(10);
 		textFieldCadastroSuspeito.setBounds(132, 51, 192, 20);
 		contentPane.add(textFieldCadastroSuspeito);
 		
 		JScrollPane scrollPaneCadastro = new JScrollPane();
-		scrollPaneCadastro.setBounds(37, 228, 290, 215);
+		scrollPaneCadastro.setBounds(39, 171, 290, 215);
 		contentPane.add(scrollPaneCadastro);
 		
 		suspeito_tabela = new JTable();
@@ -99,11 +101,67 @@ public class CadastrSuspeito extends JFrame {
 		suspeito_tabela.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				int Indicelinha = suspeito_tabela.getSelectedRow();
-				textFieldCadastroSuspeito.setText(suspeito_tabela.getValueAt(Indicelinha, 0).toString());
+
+				PerguntaSuspeito perguntaSuspeito = new PerguntaSuspeito();
+				Pergunta pergunta =  new Pergunta();
+				
+				PerguntaDAO perguntaDao = new PerguntaDAO();
+				PerguntaSuspeitoDAO perguntaSuspeitoDAO = new PerguntaSuspeitoDAO();
+				
+				int linha = suspeito_tabela.getSelectedRow();
+	            int id = (int) suspeito_tabela.getValueAt(linha, 0);
+	            try {
+	            	
+	            	
+	            	List<PerguntaID> listaParaAtualizar = new ArrayList();
+	            	List<PerguntaID> listaComNovosDados = new ArrayList();
+	            	
+	            	listaParaAtualizar.clear();
+	            	listaComNovosDados.clear();
+	            	
+	            	listaParaAtualizar.addAll(perguntaDao.listarIDperguntas());
+	            	listaComNovosDados.addAll(perguntaSuspeitoDAO.listartFKIDPerguntas(id));
+	            	
+	            	//listaComNovosDados.retainAll(listaParaAtualizar);
+	            	listaParaAtualizar.removeAll(listaComNovosDados);
+	            	listaParaAtualizar.addAll(listaComNovosDados);
+	            	
+	            	int atualizar = listaParaAtualizar.size();
+	            	int listanova = listaComNovosDados.size();
+	            	System.out.println(atualizar);
+	            	
+	            	
+	            /*	for(int j=0;j<atualizar;j++){
+	            		for(int i=0;i<listanova;i++) {
+	            			if(listaParaAtualizar.get(j).getIDPergunta()==listaComNovosDados.get(i).getIDPergunta()) {
+	            				listaParaAtualizar.remove(listaParaAtualizar.get(j));
+	            				listaParaAtualizar.addAll(listaComNovosDados);
+	            			}
+	            			
+	            		}
+	            	}*/
+	            	
+	            	
+
+	            	perguntaSuspeito.Carregar_TabelaPerguntaID(pergunta_tabela, listaParaAtualizar);
+	            	pergunta_tabela.getColumnModel().getColumn(0).setPreferredWidth(0);
+	            	pergunta_tabela.getColumnModel().getColumn(1).setPreferredWidth(110);
+	            	pergunta_tabela.getColumnModel().getColumn(2).setPreferredWidth(70);
+					ButtonColumn buttonColumn = new ButtonColumn(pergunta_tabela, suspeito_tabela, 2);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		scrollPaneCadastro.setViewportView(suspeito_tabela);
+		try {
+			suspeito.Carregar_TabelaSuspeito(suspeito_tabela);					
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(372, 28, 296, 430);
@@ -170,75 +228,6 @@ public class CadastrSuspeito extends JFrame {
 		BtnCadastrar.setBounds(31, 108, 98, 33);
 		contentPane.add(BtnCadastrar);
 		
-		JLabel BtnAlterar = new JLabel("");
-		BtnAlterar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				BtnAlterar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnAlterarSpress.png")));
-			}
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				BtnAlterar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnAlterarNpress.png")));
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				PerguntaSuspeito perguntaSuspeito = new PerguntaSuspeito();
-				Pergunta pergunta =  new Pergunta();
-				
-				PerguntaDAO perguntaDao = new PerguntaDAO();
-				PerguntaSuspeitoDAO perguntaSuspeitoDAO = new PerguntaSuspeitoDAO();
-				
-				int linha = suspeito_tabela.getSelectedRow();
-	            int id = (int) suspeito_tabela.getValueAt(linha, 0);
-	            try {
-	            	
-	            	
-	            	List<PerguntaID> listaParaAtualizar = new ArrayList();
-	            	List<PerguntaID> listaComNovosDados = new ArrayList();
-	            	
-	            	listaParaAtualizar.clear();
-	            	listaComNovosDados.clear();
-	            	
-	            	listaParaAtualizar.addAll(perguntaDao.listarIDperguntas());
-	            	listaComNovosDados.addAll(perguntaSuspeitoDAO.listartFKIDPerguntas(id));
-	            	
-	            	//listaComNovosDados.retainAll(listaParaAtualizar);
-	            	listaParaAtualizar.removeAll(listaComNovosDados);
-	            	listaParaAtualizar.addAll(listaComNovosDados);
-	            	
-	            	int atualizar = listaParaAtualizar.size();
-	            	int listanova = listaComNovosDados.size();
-	            	System.out.println(atualizar);
-	            	
-	            	
-	            /*	for(int j=0;j<atualizar;j++){
-	            		for(int i=0;i<listanova;i++) {
-	            			if(listaParaAtualizar.get(j).getIDPergunta()==listaComNovosDados.get(i).getIDPergunta()) {
-	            				listaParaAtualizar.remove(listaParaAtualizar.get(j));
-	            				listaParaAtualizar.addAll(listaComNovosDados);
-	            			}
-	            			
-	            		}
-	            	}*/
-	            	
-	            	
-
-	            	perguntaSuspeito.Carregar_TabelaPerguntaID(pergunta_tabela, listaParaAtualizar);
-	            	pergunta_tabela.getColumnModel().getColumn(0).setPreferredWidth(0);
-	            	pergunta_tabela.getColumnModel().getColumn(1).setPreferredWidth(110);
-	            	pergunta_tabela.getColumnModel().getColumn(2).setPreferredWidth(70);
-					ButtonColumn buttonColumn = new ButtonColumn(pergunta_tabela, suspeito_tabela, 2);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			}
-		});
-		BtnAlterar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnAlterarNpress.png")));
-		BtnAlterar.setBounds(31, 172, 98, 33);
-		contentPane.add(BtnAlterar);
-		
 		JLabel BtnExcluir = new JLabel("");
 		BtnExcluir.addMouseListener(new MouseAdapter() {
 			@Override
@@ -263,33 +252,8 @@ public class CadastrSuspeito extends JFrame {
 			}
 		});
 		BtnExcluir.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnExcluirNpress.png")));
-		BtnExcluir.setBounds(229, 172, 98, 33);
+		BtnExcluir.setBounds(229, 108, 98, 33);
 		contentPane.add(BtnExcluir);
-		
-		JLabel BtnCarregar = new JLabel("");
-		BtnCarregar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				try {
-					suspeito.Carregar_TabelaSuspeito(suspeito_tabela);					
-
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				BtnCarregar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnCarregarPress.png")));
-			}
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				BtnCarregar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnCarregarNPress.png")));
-			}
-		});
-		BtnCarregar.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/BtnCarregarNPress.png")));
-		BtnCarregar.setBounds(229, 108, 98, 33);
-		contentPane.add(BtnCarregar);
 		
 		JLabel Nome = new JLabel("");
 		Nome.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/Nome.png")));
@@ -298,7 +262,7 @@ public class CadastrSuspeito extends JFrame {
 		
 		JLabel ImgTelaverde = new JLabel("");
 		ImgTelaverde.setIcon(new ImageIcon(CadastrSuspeito.class.getResource("/Imagens/telaverdemedia.png")));
-		ImgTelaverde.setBounds(29, 216, 307, 237);
+		ImgTelaverde.setBounds(31, 159, 307, 237);
 		contentPane.add(ImgTelaverde);
 		
 		JLabel ImgBase = new JLabel("");
