@@ -69,9 +69,16 @@ public class TelaInicial extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				Jogar jogar = new Jogar();
-				jogar.setVisible(true);
-				dispose();
+				Jogar jogar;
+				try {
+					jogar = new Jogar();
+					jogar.setVisible(true);
+					dispose();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 		});
 		BtnJogar.setIcon(new ImageIcon(TelaInicial.class.getResource("/Imagens/JogarNpres.png")));
